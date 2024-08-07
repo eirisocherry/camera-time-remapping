@@ -15,4 +15,4 @@ https://www.youtube.com/@shy_rikki
 ## Usage
 1. Open After Effects.  
 2. Go to `Window`, scroll all the way down and open `Camera_Time_Remapping.jsx`.  
-3. The Velocity Script panel will open. It's dockable.  
+3. A script panel will open. It's dockable.  
