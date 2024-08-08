@@ -1,5 +1,9 @@
 # Camera Time Remapping
-Is an After Effects script that allows you to link time remapping to camera and more.  
+Is an After Effects script that allows you to 
+1. Link time-remapping to camera
+2. Duplicate layers with time-remapping links
+3. Pre-compose layers with duplicated lights and baked cameras
+4. Bake all expressions  
 
 ## Credits
 `shy_rikki` (discord)  
