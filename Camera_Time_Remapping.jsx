@@ -9,11 +9,12 @@ function CameraTimeRemapping(thisObj) {
 
     // About
     var name = "Camera Time Remapping";
-    var version = "1.0";
+    var version = "1.1";
 
     // Misc
     var alertMessage = [];
     var keyframeData = {};
+    var cameraType;
 
     // -------------------UI-------------------
 
@@ -170,7 +171,9 @@ function CameraTimeRemapping(thisObj) {
 
             var selectedLayer = validLayers[j];
             var newCamera = comp.layers.addCamera("Pasted Camera", [comp.width / 2, comp.height / 2]);
-            newCamera.autoOrient = AutoOrientType.NO_AUTO_ORIENT; // ONE-NODE
+            if (cameraType === "One-Node Camera") {
+                newCamera.autoOrient = AutoOrientType.NO_AUTO_ORIENT; // ONE-NODE
+            }
 
             // Generate unique name for both selected layer and camera
             var selectedLayerName = selectedLayer.name;
@@ -198,6 +201,9 @@ function CameraTimeRemapping(thisObj) {
             newCamera.startTime = selectedLayer.inPoint;
             newCamera.outPoint = selectedLayer.outPoint;
             var camRemapExpression = 'valueAtTime(thisLayer.startTime + thisComp.layer("' + selectedLayerName + '").timeRemap);';
+            if (cameraType !== "One-Node Camera") {
+                newCamera.property("ADBE Transform Group").property("ADBE Anchor Point").expression = camRemapExpression;;
+            }
             newCamera.transform.position.expression = camRemapExpression;
             newCamera.transform.orientation.expression = camRemapExpression;
             newCamera.transform.xRotation.expression = camRemapExpression;
@@ -417,14 +423,30 @@ function CameraTimeRemapping(thisObj) {
     }
 
     function copyKeyframes(layer) {
-        var propertiesToShift = [
-            layer.transform.position,
-            layer.transform.orientation,
-            layer.transform.xRotation,
-            layer.transform.yRotation,
-            layer.transform.zRotation,
-            layer.property("ADBE Camera Options Group").property("ADBE Camera Zoom")
-        ];
+
+        cameraType = layer.autoOrient === AutoOrientType.NO_AUTO_ORIENT ? "One-Node Camera" : "Two-Node Camera";
+        keyframeData = {};
+
+        if (cameraType === "One-Node Camera") {
+            var propertiesToShift = [
+                layer.transform.position,
+                layer.transform.orientation,
+                layer.transform.xRotation,
+                layer.transform.yRotation,
+                layer.transform.zRotation,
+                layer.property("ADBE Camera Options Group").property("ADBE Camera Zoom")
+            ];
+        } else {
+            var propertiesToShift = [
+                layer.property("ADBE Transform Group").property("ADBE Anchor Point"),
+                layer.transform.position,
+                layer.transform.orientation,
+                layer.transform.xRotation,
+                layer.transform.yRotation,
+                layer.transform.zRotation,
+                layer.property("ADBE Camera Options Group").property("ADBE Camera Zoom"),
+            ];
+        }
 
         for (var i = 0; i < propertiesToShift.length; i++) {
             var property = propertiesToShift[i];
@@ -436,6 +458,15 @@ function CameraTimeRemapping(thisObj) {
                     keyTimes.push(property.keyTime(j));
                     keyValues.push(property.keyValue(j));
                 }
+                keyframeData[property.name] = {
+                    times: keyTimes,
+                    values: keyValues
+                };
+            } else if (property) {
+                var keyTimes = [];
+                var keyValues = [];
+                keyTimes.push(layer.inPoint);
+                keyValues.push(property.value);
                 keyframeData[property.name] = {
                     times: keyTimes,
                     values: keyValues
