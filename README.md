@@ -1,5 +1,9 @@
 # Camera Time Remapping
-Is an After Effects script that allows you to link time remapping to camera.  
+Is an After Effects script that allows you to 
+1. Link time-remapping to camera
+2. Duplicate layers with time-remapping links
+3. Pre-compose layers with duplicated lights and baked cameras
+4. Bake all expressions  
 
 ## Credits
 `shy_rikki` (discord)  
@@ -15,4 +19,4 @@ https://www.youtube.com/@shy_rikki
 ## Usage
 1. Open After Effects.  
 2. Go to `Window`, scroll all the way down and open `Camera_Time_Remapping.jsx`.  
-3. The Velocity Script panel will open. It's dockable.  
+3. A script panel will open. It's dockable.  
