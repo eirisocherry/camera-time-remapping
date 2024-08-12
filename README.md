@@ -5,6 +5,11 @@ Is an After Effects script that allows you to
 3. Pre-compose layers with duplicated lights and baked cameras
 4. Bake all expressions  
 
+Tutorial: https://www.youtube.com/watch?v=DuCIjltDq1I  
+
+![cam](https://github.com/user-attachments/assets/75538564-9ae1-414b-b2cb-cd7fd15e8c65)  
+
+
 ## Credits
 `shy_rikki` (discord)  
 https://www.youtube.com/@shy_rikki  
