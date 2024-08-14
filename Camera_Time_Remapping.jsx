@@ -9,7 +9,7 @@ function CameraTimeRemapping(thisObj) {
 
     // About
     var name = "Camera Time Remapping";
-    var version = "1.1";
+    var version = "1.2";
 
     // Misc
     var alertMessage = [];
@@ -268,12 +268,7 @@ function CameraTimeRemapping(thisObj) {
             duplicated.moveAfter(selectedLayer);
             var selectedLayerName = selectedLayer.name;
             var linkExpression =
-                'try {\n' +
-                '   thisComp.layer("' + selectedLayerName + '").timeRemap - thisLayer.source.displayStartTime + thisComp.layer("' + selectedLayerName + '").source.displayStartTime;\n' +
-                '} catch (err) {\n' +
-                '   thisComp.layer("' + selectedLayerName + '").timeRemap + thisComp.layer("' + selectedLayerName + '").source.displayStartTime;\n' +
-                '}';
-
+                'thisComp.layer("' + selectedLayerName + '").timeRemap;';
             duplicated.timeRemap.expression = linkExpression;
 
         }
